@@ -6,7 +6,7 @@ import datetime
 class CodeMetricCollector:
     """
     核心度量引擎：利用 AST 遍历技术提取源代码的多维度度量指标。
-    符合课程要求的静态分析工具实现 [cite: 6]。
+    符合课程要求的静态分析工具实现 。
     """
 
     def __init__(self, project_root):
@@ -55,7 +55,7 @@ class CodeMetricCollector:
         imports = []
         function_details = []
 
-        # 3. 遍历 AST 节点 [cite: 6]
+        # 3. 遍历 AST 节点
         for node in ast.walk(tree):
             # 统计类
             if isinstance(node, ast.ClassDef):
@@ -108,8 +108,8 @@ class CodeMetricCollector:
         return self.results
 
 
-# --- 单元测试部分（增加工作量并保证正确性） ---
-# 在文档的“测试”章节可以展示此部分的运行结果
+# --- 单元测试部分 ---
+
 
 def test_engine():
     """针对简单用例进行自测"""
@@ -144,9 +144,14 @@ def standalone_func(a, b, c):
 
 
 if __name__ == "__main__":
-    # 实际运行分析（请确保当前目录下有 requests 文件夹）
-    # collector = CodeMetricCollector("./requests")
-    # results = collector.run()
-
-    # 运行演示测试
+    # 1. 运行自测
     test_engine()
+
+    # 2. 运行真实分析
+    print("\n--- 正在分析 Requests 核心源码 ---")
+    collector = CodeMetricCollector("src/requests")
+    results = collector.run()
+
+    # 打印前 3 个文件的结果作为示例
+    for res in results[:3]:
+        print(f"分析文件: {res['file']} | 函数总数: {res['functions']}")
